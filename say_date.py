@@ -33,9 +33,9 @@ def get_time_based_indexes(_time: datetime):
     minute = _time.minute
     month = _time.month - 1
 
-    if minute % 10 == 1:
+    if minute % 10 in [2, 3, 4]:
         minutes_noun = 2
-    elif minute % 10 in [2, 3, 4] and (minute / 10) % 10 != 1:
+    elif minute % 10 == 1 and minute % 100 != 11:
         minutes_noun = 1
     else:
         minutes_noun = 0
@@ -116,7 +116,7 @@ def add_tail(sample, tail_duration=0.2):
 root = Path('.').parent / 'samples'
 data = load_sounds(root, 'days', 'hours', 'minutes', 'months', 'minute_nouns')
 
-day, month, hour, minute, m_noun = get_time_based_indexes(datetime(2024, 2, 24, 13, 41).now())
+day, month, hour, minute, m_noun = get_time_based_indexes(datetime(2024, 2, 11, 13, 11))
 phrase = concatenate_samples(data["days"][day], data["months"][month])
 phrase = concatenate_samples(phrase, data["hours"][hour])
 phrase = concatenate_samples(phrase, data["minutes"][minute])
